@@ -45,6 +45,8 @@ public class DiscountServiceImpl implements DiscountService {
     public long calc(HighwayDrive drive) {
         return discountStrategies.stream()
                                  .mapToInt(function -> function.apply(drive))
-                                 .max().orElse(0);
+                                 .filter(discount -> discount > 0)
+                                 .findFirst()
+                                 .orElse(0);
     }
 }
