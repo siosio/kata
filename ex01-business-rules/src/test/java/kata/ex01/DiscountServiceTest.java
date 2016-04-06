@@ -2,6 +2,8 @@ package kata.ex01;
 
 import kata.ex01.model.Driver;
 import kata.ex01.model.HighwayDrive;
+import kata.ex01.model.RouteType;
+
 import org.junit.Before;
 import org.junit.Test;
 
@@ -29,25 +31,26 @@ public class DiscountServiceTest {
 
     @Test
     public void test平日朝夕割引() {
-        HighwayDrive drive = new HighwayDrive();
-        drive.setEnteredAt(LocalDateTime.of(2016, 3, 31, 23, 0));
-        drive.setExitedAt(LocalDateTime.of(2016, 4, 1, 6, 30));
-        drive.setDriver(driver(10));
-        drive.setVehicleFamily(STANDARD);
-        drive.setRouteType(RURAL);
+        HighwayDrive drive = new HighwayDrive(
+                LocalDateTime.of(2016, 3, 31, 23, 0),
+                LocalDateTime.of(2016, 4, 1, 6, 30),
+                STANDARD,
+                RouteType.RURAL,
+                driver(10)
+        );
 
         assertEquals(50, discountService.calc(drive));
     }
 
     @Test
     public void test休日朝夕は休日割が適用される() {
-        HighwayDrive drive = new HighwayDrive();
-        drive.setEnteredAt(LocalDateTime.of(2016, 4, 1, 23, 0));
-        drive.setExitedAt(LocalDateTime.of(2016, 4, 2, 6, 30));
-        drive.setDriver(driver(10));
-        drive.setVehicleFamily(STANDARD);
-        drive.setRouteType(RURAL);
-
+        HighwayDrive drive = new HighwayDrive(
+                LocalDateTime.of(2016, 4, 1, 23, 0),
+                LocalDateTime.of(2016, 4, 2, 6, 30),
+                STANDARD,
+                RouteType.RURAL,
+                driver(10)
+        );
         assertEquals(30, discountService.calc(drive));
     }
 
