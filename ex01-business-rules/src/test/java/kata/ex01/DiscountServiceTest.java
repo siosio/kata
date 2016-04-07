@@ -9,7 +9,6 @@ import org.junit.Test;
 
 import java.time.LocalDateTime;
 
-import static kata.ex01.model.RouteType.*;
 import static kata.ex01.model.VehicleFamily.*;
 import static org.junit.Assert.*;
 
@@ -18,11 +17,6 @@ import static org.junit.Assert.*;
  */
 public class DiscountServiceTest {
     DiscountService discountService;
-    private Driver driver(int usingCount) {
-        Driver driver = new Driver();
-        driver.setCountPerMonth(usingCount);
-        return driver;
-    }
 
     @Before
     public void setUp() {
@@ -36,7 +30,7 @@ public class DiscountServiceTest {
                 LocalDateTime.of(2016, 4, 1, 6, 30),
                 STANDARD,
                 RouteType.RURAL,
-                driver(10)
+                new Driver(10)
         );
 
         assertEquals(50, discountService.calc(drive));
@@ -49,7 +43,7 @@ public class DiscountServiceTest {
                 LocalDateTime.of(2016, 4, 2, 6, 30),
                 STANDARD,
                 RouteType.RURAL,
-                driver(10)
+                new Driver(10)
         );
         assertEquals(30, discountService.calc(drive));
     }

@@ -6,6 +6,5 @@ import java.io.Serializable
 /**
  * @author kawasima
  */
-class Driver : Serializable {
-  var countPerMonth: Int = 0
+data class Driver(val countPerMonth: Int) {
 }
