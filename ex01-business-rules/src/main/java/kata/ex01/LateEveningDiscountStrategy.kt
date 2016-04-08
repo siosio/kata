@@ -1,6 +1,7 @@
 package kata.ex01
 
 import kata.ex01.model.*
+import java.time.*
 import java.time.chrono.*
 
 /**
@@ -9,17 +10,18 @@ import java.time.chrono.*
 class LateEveningDiscountStrategy : DiscountStrategy {
 
   companion object {
-    private val lateEveningTime = (0..4)
+    private val lateEveningTime = TimeRange(LocalTime.of(0, 0, 0), LocalTime.of(4, 0, 0))
   }
 
   override fun isDiscountTarget(drive: HighwayDrive): Boolean {
-//    drive.enteredAt.isBefore(ChronoLocalDateTime.from())
-    val enteredTime = drive.enteredAt.toLocalTime()
-    val exitTime = drive.exitedAt.toLocalTime()
-
-    if (drive.enteredAt.hour in lateEveningTime) {
-      return true
+    return if (lateEveningTime.include(TimeRange(drive.enteredAt.toLocalTime(), drive.exitedAt.toLocalTime()))) {
+      true
+    } else {
+      false
     }
-    return false
+  }
+
+  override fun getDiscountQuotient(drive: HighwayDrive): Long {
+    return 30L
   }
 }

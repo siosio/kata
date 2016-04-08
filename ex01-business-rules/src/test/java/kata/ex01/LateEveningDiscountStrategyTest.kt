@@ -44,6 +44,16 @@ class LateEveningDiscountStrategyTest {
 
 
   @Test
+  fun `23時台に入って4時台に出た場合は割引対象`() {
+    val drive = createDrive(
+        enteredTime = LocalDateTime.of(2016, Month.APRIL, 9, 23, 59, 59),
+        exitTime = LocalDateTime.of(2016, Month.APRIL, 10, 4, 1, 0)
+    )
+    val actual = sut.isDiscountTarget(drive)
+    assertThat(actual, `is`(true))
+  }
+
+  @Test
   fun `23時台に乗って23時台に出た場合は割引対象外`() {
     val drive = createDrive(
         enteredTime = LocalDateTime.of(2016, Month.APRIL, 9, 23, 0, 0),

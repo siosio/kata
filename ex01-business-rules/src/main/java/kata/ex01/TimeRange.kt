@@ -11,27 +11,25 @@ class TimeRange(
    * 指定のfromとtoが、このオブジェクトの範囲を含んでいるかどうか
    */
   fun include(other: TimeRange): Boolean {
-
-    if (other.from.hour < from.hour
-        || (other.from.hour == from.hour && other.from.minute < from.minute)) {
-      // 開始が範囲より前
-      if (other.from.isBefore(other.to) &&
-          other.to.isBefore(from)) {
-        // 終わりも範囲より前は範囲外
-        return false
-      } else {
-        // それ以外は範囲内
-        return true
-      }
-    } else if (from.equals(other.from)) {
-      return true
-    } else if (to.equals(other.to)) {
-      return true
+    return if (other.from.isAfter(from) && other.from.isBefore(to)) {
+      // 開始がこの範囲の中の場合
+      true
+    } else if (other.from.equals(from) || other.from.equals(to)) {
+      // 開始が範囲の開始または終わりと同じ場合
+      true
+    } else if (other.to.isAfter(from) && other.to.isBefore(to)) {
+      // 終わりこの範囲の中の場合
+      true
+    } else if (other.to.equals(from) || other.to.equals(to)) {
+      // 終わりが範囲の開始または終わりと同じ場合
+      true
+    } else if (other.from.isBefore(from) && other.to.isAfter(to)) {
+      // この範囲を内包している場合
+      true
+    } else if (other.from.isAfter(other.to) && other.to.isAfter(to)){
+      true
+    } else {
+      false
     }
-    return false
-  }
-
-  private fun isBefore(time1:LocalTime, time2:LocalTime) {
-
   }
 }
